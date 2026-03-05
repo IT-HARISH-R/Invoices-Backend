@@ -4,10 +4,8 @@ import { SECRET_KEY } from "../utlis/config.js";
 const auth = {
     checkAuth: async (req, res, next) => {
         try {
-
             // Get token from header
             const token = req.headers.authorization;
-            console.log(req.headers.authorization)
             if (!token) {
                 return res.status(401).json({ message: "Token not provided" });
             }

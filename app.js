@@ -1,6 +1,7 @@
 import express from "express"
 import cors from 'cors'
 import authRoute from "./routes/authRoute.js";
+import companyRoutes from "./routes/companyRoutes.js";
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors(
 ))
 
 app.use('/',authRoute)
+app.use("/company", companyRoutes); 
 
 app.get("/", (req, res) => {
     res.json("Working Fine Invoices Backend")
