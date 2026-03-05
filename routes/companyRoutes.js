@@ -4,7 +4,7 @@ import companyController from "../controllers/companyColtroller.js";
 
 const companyRoutes = express.Router();
 
-companyRoutes.post("/create", auth.checkAuth, companyController.createCompany);
+companyRoutes.post("/create", auth.checkAuth,auth.allowRoles(['admin','employee']) ,companyController.createCompany);
 
 companyRoutes.get("/", auth.checkAuth, companyController.getCompanies);
 
