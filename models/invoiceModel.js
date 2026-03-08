@@ -1,49 +1,72 @@
 import mongoose from "mongoose";
 
-const invoiceSchema = new mongoose.Schema(
-{
+const invoiceSchema = new mongoose.Schema({
     invoiceNumber: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Company",
-        required: true
     },
-
     customer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer",
         required: true
     },
-
-    items: [
-        {
-            product: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Product"
-            },
-            quantity: Number,
-            price: Number,
-            total: Number
+    items: [{
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product",
+            required: true
+        },
+        quantity: {
+            type: Number,
+            required: true
+        },
+        price: {
+            type: Number,
+            required: true
+        },
+        gstRate: {              
+            type: Number,
+            default: 18
+        },
+        itemCGST: {              
+            type: Number,
+            default: 0
+        },
+        itemSGST: {              
+            type: Number,
+            default: 0
+        },
+        itemTotal: {            
+            type: Number,
+            required: true
+        },
+        itemTotalWithGST: {     
+            type: Number,
+            required: true
         }
-    ],
-
-    subtotal: Number,
-    cgst: Number,
-    sgst: Number,
-    totalAmount: Number,
-
-    status: {
-        type: String,
-        enum: ["paid", "pending"],
-        default: "pending"
+    }],
+    subtotal: {
+        type: Number,
+        required: true
+    },
+    cgst: {
+        type: Number,
+        required: true
+    },
+    sgst: {
+        type: Number,
+        required: true
+    },
+    totalAmount: {
+        type: Number,
+        required: true
     }
+}, { timestamps: true });
 
-},
-{ timestamps: true }
-);
-
-export default mongoose.model("Invoice", invoiceSchema);
+const invoiceModel = mongoose.model("Invoice", invoiceSchema);
+export default invoiceModel;

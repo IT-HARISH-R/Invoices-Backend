@@ -13,4 +13,4 @@ mongoose.connect(MONGODB_URL)
     })
     .catch((error) => {
         console.error("❌ Database connection failed: ", error)
-    })
+    }) 

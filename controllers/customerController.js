@@ -14,7 +14,7 @@ const customerController = {
                 phone,
                 address,
                 gstNumber,
-                company
+                // company
             });
 
             await customer.save();
