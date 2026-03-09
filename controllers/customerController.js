@@ -6,7 +6,7 @@ const customerController = {
     createCustomer: async (req, res) => {
         try {
 
-            const { name, email, phone, address, gstNumber, company } = req.body;
+            const { name, email, phone, address, gstNumber } = req.body;
 
             const customer = new customerModel({
                 name,
@@ -14,7 +14,6 @@ const customerController = {
                 phone,
                 address,
                 gstNumber,
-                // company
             });
 
             await customer.save();
@@ -36,7 +35,6 @@ const customerController = {
 
             const customers = await customerModel
                 .find()
-                .populate("company", "name email");
 
             res.json({ customers });
 
@@ -52,7 +50,6 @@ const customerController = {
 
             const customer = await customerModel
                 .findById(req.params.id)
-                .populate("company", "name");
 
             if (!customer) {
                 return res.status(404).json({ message: "Customer not found" });

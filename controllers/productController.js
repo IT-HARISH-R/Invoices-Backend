@@ -6,14 +6,13 @@ const productController = {
   createProduct: async (req, res) => {
     try {
 
-      const { name, description, price, gstRate, company } = req.body;
+      const { name, description, price, gstRate } = req.body;
 
       const product = new ProductModel({
         name,
         description,
         price,
         gstRate,
-        company
       });
 
       await product.save();
@@ -35,7 +34,6 @@ const productController = {
 
       const products = await ProductModel
         .find()
-        .populate("company", "name");
 
       res.json({ products });
 
@@ -51,7 +49,6 @@ const productController = {
 
       const product = await ProductModel
         .findById(req.params.id)
-        .populate("company", "name");
 
       if (!product) {
         return res.status(404).json({ message: "Product not found" });

@@ -7,7 +7,7 @@ const invoiceController = {
 
     createInvoice: async (req, res) => {
         try {
-            const { company, customer, items } = req.body;
+            const { customer, items } = req.body;
 
             const invoiceNumber = await generateInvoiceNumber();
 
@@ -56,7 +56,6 @@ const invoiceController = {
 
             const invoice = new invoiceModel({
                 invoiceNumber,
-                company,
                 customer,
                 items: processedItems,
                 subtotal,
@@ -70,7 +69,6 @@ const invoiceController = {
             // Populate data before sending response
             const populatedInvoice = await invoiceModel
                 .findById(invoice._id)
-                // .populate("company", "name gstNumber")
                 .populate("customer", "name phone email")
                 .populate("items.product", "name price gstRate");
 
@@ -87,7 +85,6 @@ const invoiceController = {
         try {
             const invoices = await invoiceModel
                 .find()
-                // .populate("company", "name gstNumber")
                 .populate("customer", "name phone email")
                 .populate("items.product", "name price gstRate")
                 .sort({ createdAt: -1 }); // Latest first
@@ -105,7 +102,6 @@ const invoiceController = {
         try {
             const invoice = await invoiceModel
                 .findById(req.params.id)
-                .populate("company")
                 .populate("customer")
                 .populate("items.product");
 
@@ -126,7 +122,6 @@ const invoiceController = {
         try {
             const invoice = await invoiceModel
                 .findById(req.params.id)
-                .populate("company")
                 .populate("customer")
                 .populate("items.product");
 
@@ -149,9 +144,9 @@ const invoiceController = {
             doc.moveDown();
 
             // Company Details - WITH NULL CHECK
-            const companyName = invoice.company?.name || "Your Company Name";
-            const companyGST = invoice.company?.gstNumber || "33ABCDE1234F1Z5";
-            const companyAddress = invoice.company?.address || "123 Business Street";
+            const companyName =  "Your Company Name";
+            const companyGST =  "33ABCDE1234F1Z5";
+            const companyAddress = "123 Business Street";
 
             doc.fontSize(12).text(companyName);
             doc.fontSize(10).text(companyAddress);
