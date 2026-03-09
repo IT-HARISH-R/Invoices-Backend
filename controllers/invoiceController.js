@@ -70,7 +70,7 @@ const invoiceController = {
             // Populate data before sending response
             const populatedInvoice = await invoiceModel
                 .findById(invoice._id)
-                .populate("company", "name gstNumber")
+                // .populate("company", "name gstNumber")
                 .populate("customer", "name phone email")
                 .populate("items.product", "name price gstRate");
 
@@ -87,7 +87,7 @@ const invoiceController = {
         try {
             const invoices = await invoiceModel
                 .find()
-                .populate("company", "name gstNumber")
+                // .populate("company", "name gstNumber")
                 .populate("customer", "name phone email")
                 .populate("items.product", "name price gstRate")
                 .sort({ createdAt: -1 }); // Latest first

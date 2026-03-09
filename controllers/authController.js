@@ -22,19 +22,15 @@ const authController = {
 
     login: async (req, res) => {
         const { email, password } = req.body
-        console.log("1")
         try {
             const user = await UserModel.findOne({ email })
-            console.log("2")
 
             if (!user) return res.status(400).json({ message: 'User not found' })
 
             const isMatch = await bcrypt.compare(password, user.password)
-            console.log("3")
             if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' })
 
             const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: '7d' })
-            console.log("5")
 
             res.json({ token, name: user.name, status: true })
 
